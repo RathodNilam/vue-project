@@ -4,7 +4,7 @@
         
 
   <b-modal id="modal-1" title="Now To Do">
-    <b-form v-on:click="Ok">
+    <b-form v-on:submit.prevent="submit">
   
       <div class="row">
         <div class="col-12">
@@ -21,6 +21,7 @@
           <input type="text" class="form-control" v-model="form.text"/>
             <br>
         </div>
+        <button class="btn btn-primary">submit</button>
       </div>
     </b-form>
     </b-modal>
@@ -40,11 +41,12 @@ export default{
   },
 
   methods:{
-    OK:function(){
+    submit:function(){
         return axios
       .post("http://localhost:8000/api/AddTodos",this.form)
       .then(response=>{
         console.log(response);
+       
       }).catch(err => {
         alert(err);
       }); 

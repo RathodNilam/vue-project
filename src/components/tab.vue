@@ -1,4 +1,4 @@
-<template>
+S<template>
     <div>
         <div class="container-fluid">
             <div class="row">
@@ -55,7 +55,7 @@
                                 <tr v-for="(todo,index) in resultQuery" :key="index">
                                     <td>{{todo.name}}</td>
                                     <td>{{todo.text}}</td>
-                                    <td><a @click="removeTodoRow(index)"><i class="far fa-trash-alt"></i></a></td>
+                                    <td><a @click="removeTodoRow(index)"><b-icon icon="trash"></b-icon></a></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -90,7 +90,7 @@
                                     <td>{{post.name}}</td>
                                     <td>{{post.text}}</td>
                                     <td>{{post.email}}</td>
-                                    <td><a @click="removePostRow(index)"><i class="far fa-trash-alt"></i></a></td>
+                                    <td><a @click="removePostRow(index)"><b-icon icon="trash"></b-icon></a></td>
                                 </tr>
                             </tbody>
                             </table>
@@ -109,6 +109,8 @@
 </template>
  
 <script>
+    import axios from "axios";
+
     export default {
     data:function() {
         return{
@@ -116,15 +118,7 @@
              openModal:false,
              searchQuery: null,
              searchQuery1: null,
-             todos: [
-      {name: "Pull out the trash",text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit"},
-      {name: "Pull out the trash",text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit"},
-      {name: "Pull out the trash",text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit"},
-      {name: "Pull out the trash",text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit"},
-      {name: "welcome",text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit"},
-      {name: "hi",text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit"},
-      {name: "hello",text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit"},
-    ],
+             todos: [],
     posts: [
     {name: "PHP",text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",email:"abc@gmail.com"},
       {name: "Flutter",text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",email:"abc@gmail.com"},
@@ -158,6 +152,21 @@
       }
     }
   },
+
+  created()
+  {
+
+        return axios.get("http://localhost:8000/api/GetTodos")
+      .then(response=>{
+        console.log(response);
+    this.todos = response.data;
+      }).catch(err => {
+        alert(err);
+      }); 
+    },
+
+
+
 
     methods: {
     isActive (menuItem) {
